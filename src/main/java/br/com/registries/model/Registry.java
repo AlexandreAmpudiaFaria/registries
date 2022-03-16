@@ -26,7 +26,7 @@ public class Registry {
 	private String address;
 
 	@OneToMany(mappedBy = "registry", cascade = CascadeType.REMOVE)
-	private List<Certificate> certificates = new ArrayList()<>();
+	private List<Certificate> certificates = new ArrayList<>();
 
 	public Registry() {
 	}
