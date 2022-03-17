@@ -48,12 +48,11 @@ public class RegistryController {
 		List<Registry> result = registryRepository.findActives();
 		//return RegistryDto.converter(registries);
 		List<RegistryDto> registries = RegistryDto.converter(result);
-		Registry registro = new Registry();
-		registro.setName(registries.get(0).getName());
+		//Registry registro = new Registry();
+		//registro.setName(registries.get(0).getName());		
+		//List<Registry> testes = Arrays.asList(registro);
 		
-		List<Registry> testes = Arrays.asList(registro);
-		
-		model.addAttribute("testes", testes);
+		model.addAttribute("registries", registries);
 		return "home";
 	}
 
