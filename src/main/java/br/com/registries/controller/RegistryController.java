@@ -1,11 +1,14 @@
 package br.com.registries.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -20,7 +23,8 @@ import br.com.registries.form.UpdateRegistryForm;
 import br.com.registries.model.Registry;
 import br.com.registries.repository.RegistryRepository;
 
-@RestController
+//@RestController
+@Controller
 @RequestMapping("/registry")
 public class RegistryController {
 
@@ -33,10 +37,24 @@ public class RegistryController {
 		return RegistryDto.converter(registries);
 	}
 	
-	@GetMapping("/actives")
+	/*@GetMapping("/actives")
 	public List<RegistryDto> getRegistriesActives() {
 		List<Registry> registries = registryRepository.findActives();
 		return RegistryDto.converter(registries);
+	}*/
+	
+	@GetMapping("/home")
+	public String getRegistriesActives(Model model) {
+		List<Registry> result = registryRepository.findActives();
+		//return RegistryDto.converter(registries);
+		List<RegistryDto> registries = RegistryDto.converter(result);
+		Registry registro = new Registry();
+		registro.setName(registries.get(0).getName());
+		
+		List<Registry> testes = Arrays.asList(registro);
+		
+		model.addAttribute("testes", testes);
+		return "home";
 	}
 
 	@GetMapping("/{id}")
