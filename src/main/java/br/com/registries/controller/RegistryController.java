@@ -37,23 +37,17 @@ public class RegistryController {
 		return RegistryDto.converter(registries);
 	}
 	
-	/*@GetMapping("/actives")
-	public List<RegistryDto> getRegistriesActives() {
-		List<Registry> registries = registryRepository.findActives();
-		return RegistryDto.converter(registries);
-	}*/
-	
 	@GetMapping("/home")
+	public String Home() {
+		return "home";
+	}
+	
+	@GetMapping("/listar")
 	public String getRegistriesActives(Model model) {
 		List<Registry> result = registryRepository.findActives();
-		//return RegistryDto.converter(registries);
-		List<RegistryDto> registries = RegistryDto.converter(result);
-		//Registry registro = new Registry();
-		//registro.setName(registries.get(0).getName());		
-		//List<Registry> testes = Arrays.asList(registro);
-		
+		List<RegistryDto> registries = RegistryDto.converter(result);		
 		model.addAttribute("registries", registries);
-		return "home";
+		return "listar";
 	}
 
 	@GetMapping("/{id}")
