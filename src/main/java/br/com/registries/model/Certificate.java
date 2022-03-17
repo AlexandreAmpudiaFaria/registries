@@ -1,10 +1,12 @@
 package br.com.registries.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Certificate {
@@ -15,8 +17,8 @@ public class Certificate {
 
 	private String name;
 
-	@ManyToOne
-	private Registry registry;
+	@ManyToMany(mappedBy = "certificates")
+	private List<Registry> registry;
 
 	public Certificate() {
 	}
@@ -37,11 +39,11 @@ public class Certificate {
 		this.name = name;
 	}
 
-	public Registry getRegistry() {
+	public List<Registry> getRegistry() {
 		return registry;
 	}
 
-	public void setRegistry(Registry registry) {
+	public void setRegistry(List<Registry> registry) {
 		this.registry = registry;
 	}
 
