@@ -1,6 +1,5 @@
 package br.com.registries.controller;
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -13,12 +12,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import br.com.registries.dto.RegistryDto;
+import br.com.registries.form.NewRegistryForm;
 import br.com.registries.form.UpdateRegistryForm;
 import br.com.registries.model.Registry;
 import br.com.registries.repository.RegistryRepository;
@@ -30,12 +30,6 @@ public class RegistryController {
 
 	@Autowired
 	RegistryRepository registryRepository;
-
-	@GetMapping("/all")
-	public List<RegistryDto> getAllRegistries() {
-		List<Registry> registries = registryRepository.findAll();
-		return RegistryDto.converter(registries);
-	}
 	
 	@GetMapping("/home")
 	public String Home() {
@@ -49,6 +43,17 @@ public class RegistryController {
 		model.addAttribute("registries", registries);
 		return "listar";
 	}
+	
+	@GetMapping("/formulario")
+	public String getForm() {
+		return "novo";
+	}
+
+	@GetMapping("/all")
+	public List<RegistryDto> getAllRegistries() {
+		List<Registry> registries = registryRepository.findAll();
+		return RegistryDto.converter(registries);
+	}	
 
 	@GetMapping("/{id}")
 	public RegistryDto getRegistriesById(@PathVariable Long id) {
@@ -56,6 +61,14 @@ public class RegistryController {
 		RegistryDto registry = new RegistryDto(result);
 		return registry;
 	}
+	
+	@PostMapping("/novo")
+	public String NewRegistry(NewRegistryForm data) {	
+		Registry registry = data.convert();
+		registryRepository.save(registry);
+		return "home";
+	}
+	
 
 	@PutMapping("/{id}")
 	@Transactional
