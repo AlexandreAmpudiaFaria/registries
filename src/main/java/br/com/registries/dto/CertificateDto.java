@@ -1,5 +1,8 @@
 package br.com.registries.dto;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import br.com.registries.model.Certificate;
 
 public class CertificateDto {
@@ -30,6 +33,10 @@ public class CertificateDto {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public static List<CertificateDto> converter(List<Certificate> certificates) {
+		return certificates.stream().map(CertificateDto::new).collect(Collectors.toList());
 	}
 
 }
